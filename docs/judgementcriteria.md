@@ -1,4 +1,4 @@
-Judgement Criteria
+# Judgement Criteria
 
 { "name": "Instruction following", "description": "Evaluate how well the outline follows the user’s instructions for an outline. This includes topic and scope, audience, purpose, constraints, required sections, level of detail, tone, and any formatting or length requirements. Check outline-specific expectations: clear hierarchical structure (e.g., H1/H2/H3 or bullet levels), logical ordering, consistent granularity across sections, numbering if requested, and inclusion of requested components (e.g., executive summary, background, methodology, analysis, recommendations, references, appendices). Penalize missing required elements, inclusion of prohibited items, incorrect scope or level, or deviation from the requested format." },
 
