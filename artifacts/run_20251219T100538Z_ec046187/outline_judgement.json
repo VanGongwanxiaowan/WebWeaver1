@@ -1,0 +1,30 @@
+{
+  "question": "run",
+  "answer": "# Report\n\n## References\n<citation></citation>\n",
+  "results": {
+    "Instruction following": {
+      "rating": 0,
+      "justification": "The outline is completely empty and provides no content related to the question 'run'. It only includes a 'References' section with a placeholder tag '<citation></citation>', which does not follow any instruction or address the topic. The absence of any hierarchical structure, logical ordering, or required components (such as topic, scope, audience, purpose, methodology, analysis, recommendations, etc.) violates all expectations for an outline. The format is incorrect as it lacks any meaningful content or structure. This is the lowest possible score as the outline fails to meet any criterion for a valid response."
+    },
+    "Depth": {
+      "rating": 0,
+      "justification": "The outline is completely empty and provides no content related to the question 'run'. It only includes a 'References' section with a placeholder tag, which is irrelevant to assessing depth. There are no headings, subpoints, arguments, methods, metrics, or any form of analysis. This fails to meet the minimum requirements for a high-depth outline, as it lacks any substantive structure or content. The absence of any meaningful elements undercuts the possibility of demonstrating comprehensiveness or analytical depth."
+    },
+    "Balance": {
+      "rating": 0,
+      "justification": "The outline is completely empty and provides no content to evaluate. It consists only of a title and a placeholder for a citation, failing to address the question or demonstrate any structure, perspective, or fairness. This violates all requirements of the 'Balance' criterion, as there is no plan for multiple perspectives, counterarguments, or neutral language. The absence of any substantive content makes it impossible to assess balance, and the lack of structure or analysis results in the lowest possible score."
+    },
+    "Breadth": {
+      "rating": 0,
+      "justification": "The outline is completely empty and provides no subtopics, perspectives, or contexts related to the question 'run'. It only contains a 'References' section with a placeholder tag, which is irrelevant to the evaluation of breadth. This fails to meet any of the expected dimensions such as historical context, legal/regulatory, economic/market, technical/operational, ethical, social/cultural, geographic/comparative, stakeholder analysis, risks/limitations, or implementation pathways. The absence of any content makes it impossible to assess any breadth, and the inclusion of a meaningless 'References' section suggests a deliberate attempt to appear structured without providing any substance."
+    },
+    "Support": {
+      "rating": 0,
+      "justification": "The outline is completely empty, with only a placeholder `<citation></citation>` in the References section. There are no factual assertions, planned claims, quantitative points, qualitative points, or any form of evidentiary scaffolding or sourcing plan. It fails to meet the minimum requirement of providing source URLs or any verifiable attribution, resulting in a score of 0."
+    },
+    "Insightfulness": {
+      "rating": 0,
+      "justification": "The outline is completely empty and provides no content related to the question 'run'. It only includes a placeholder for citations, which is irrelevant to assessing insightfulness. The lack of any substantive structure, analysis, or actionable recommendations means it fails to meet any criteria for being insightful or practically useful. It is purely a template shell with no meaningful substance."
+    }
+  }
+}

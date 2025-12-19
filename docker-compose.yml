@@ -1,0 +1,32 @@
+services:
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis_data:/data
+
+  webweaver:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      # Required
+      WEBWEAVER_OPENAI_API_KEY: ${WEBWEAVER_OPENAI_API_KEY}
+      WEBWEAVER_TAVILY_API_KEY: ${WEBWEAVER_TAVILY_API_KEY}
+
+      # Optional
+      WEBWEAVER_SEARCH_PROVIDER: tavily
+      WEBWEAVER_REDIS_ENABLED: "true"
+      WEBWEAVER_REDIS_URL: redis://redis:6379/0
+      WEBWEAVER_LOG_LEVEL: INFO
+      WEBWEAVER_ARTIFACTS_DIR: /data/artifacts
+    volumes:
+      - webweaver_artifacts:/data/artifacts
+    depends_on:
+      - redis
+
+volumes:
+  redis_data:
+  webweaver_artifacts:

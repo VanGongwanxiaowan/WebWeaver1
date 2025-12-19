@@ -1,0 +1,26 @@
+[
+   {
+     "name": "Instruction following",
+     "description": "Evaluate how well the outline follows the user’s instructions for an outline. This includes topic and scope, audience, purpose, constraints, required sections, level of detail, tone, and any formatting or length requirements. Check outline-specific expectations: clear hierarchical structure (e.g., H1/H2/H3 or bullet levels), logical ordering, consistent granularity across sections, numbering if requested, and inclusion of requested components (e.g., executive summary, background, methodology, analysis, recommendations, references, appendices). Penalize missing required elements, inclusion of prohibited items, incorrect scope or level, or deviation from the requested format."
+   },
+   {
+     "name": "Depth",
+     "description": "Assess the comprehensiveness and analytical depth of the outline. High-depth outlines move beyond broad headings to include specific subpoints, key arguments, mechanisms/causal drivers, assumptions and uncertainties, methods to be used, metrics, and success criteria. They indicate sequencing and logic (what builds on what), note dependencies and open questions, and identify where evidence, examples, and visuals will be integrated. Shallow outlines list generic topics without meaningful substructure, rationale, or analytical scaffolding."
+   },
+   {
+     "name": "Balance",
+     "description": "Evaluate the fairness and objectivity of the outline. Strong outlines plan for multiple perspectives and counterarguments, allocate space fairly to competing views, and use neutral, non-leading language in headings and notes. Where issues are controversial or multi-faceted, the outline should explicitly include sections for trade-offs, limitations, and counter-evidence. Poor outlines display bias, give disproportionate space to one side without justification, or omit salient opposing views."
+   },
+   {
+     "name": "Breadth",
+     "description": "Evaluate how many distinct and relevant subtopics, perspectives, or contexts the outline covers, while staying focused on the brief. Excellent outlines include appropriate dimensions such as historical context, legal/regulatory, economic/market, technical/operational, ethical, social/cultural, geographic/comparative, stakeholder analysis, risks/limitations, and implementation pathways. Coverage should be wide-ranging yet purposeful; simply presenting two sides of a debate is insufficient, and irrelevant tangents should be avoided."
+   },
+   {
+     "name": "Support",
+     "description": "Evaluate the outline’s evidentiary scaffolding and sourcing plan. Providing source URLs somewhere in the outline (e.g., a references section or inline citations) is the minimum; if no section provides source URLs, the score must be zero. Factual accuracy is necessary but not sufficient. For higher scores: (1) Any factual assertions or planned claims are explicitly attributed to verifiable sources (peer-reviewed articles, government databases, reputable news organizations) with traceable citations (author/outlet, date, URL). Vague references like “studies show” are unacceptable. (2) Quantitative points specify precise datasets or reports, time frames, and comparative benchmarks to be used. (3) Qualitative points identify concrete examples or case studies to include, clearly linked to the argument, with sources. (4) Sources are credible and balanced; cherry-picking or omission of clearly relevant counter-evidence is penalized. Original synthesis should build on the cited material, not replace it."
+   },
+   {
+     "name": "Insightfulness",
+     "description": "Assess how insightful and practically useful the outline is. Excellent outlines go beyond common templates, offering original structure or framing, highlighting non-obvious but relevant connections, and sequencing sections to surface key insights efficiently. Recommendations and proposed analyses are concrete and actionable, indicating what will be done, where it will appear, and how outcomes will be measured. Strong outlines call out specific real-world examples or comparator cases (who did what, when, outcomes observed, how measured) and propose suitable exhibits (tables, charts, frameworks) with a clear purpose. Vague, generic, or purely aspirational notes cannot score highly."
+   }
+ ]

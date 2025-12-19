@@ -1,0 +1,1 @@
+<tool_call>{"name": "search", "arguments": {"query": ["Python 3.12 new features", "Python 3.12 enhancements", "Python 3.12 specific changes"], "goal": "identify detailed features, enhancements, and changes introduced in Python 3.12 for the outline"}}

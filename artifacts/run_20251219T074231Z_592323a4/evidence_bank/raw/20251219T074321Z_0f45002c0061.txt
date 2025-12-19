@@ -1,0 +1,414 @@
+Introduction
+Python 3.12
+introduces a host of new features and enhancements that significantly augment the language’s usability, performance, and developer experience. From a refined type parameter syntax to improvements in error messages and enhancements across various modules, Python 3.12 strengthens its position as a versatile and powerful programming language. This article explores the key additions in Python 3.12, highlighting how these updates cater to diverse developer needs while maintaining compatibility and stability.
+How to Download and Install Python?
+To download and install Python, follow these steps based on your operating system:
+Windows
+Download
+: Visit
+python.org
+, click “Downloads,” then “Download Python 3.x.x”.
+Install
+: Run the installer, check “Add Python to PATH,” and click “Install Now.”
+Verify
+: Open Command Prompt, type
+python --version
+.
+macOS
+Download
+: Visit
+python.org
+, click “Downloads,” then “Download Python 3.x.x” for macOS.
+Install
+: Run the downloaded
+.pkg
+file.
+Verify
+: Open Terminal, type
+python3 --version
+.
+Linux
+Update
+: Open
+Terminal
+, run
+sudo apt update
+.
+Install
+: Run
+sudo apt install python3
+.
+Verify
+: Type
+python3 --version
+.
+This will get Python installed on your system quickly and easily.
+New Features in Python 3.12
+Let us explore all the new features in
+Python
+3.12.
+Type Parameter Syntax
+This introduces a more concise and explicit syntax for declaring generic classes and functions. Previously, generic declarations were verbose and unclear regarding the scope of type parameters. Now, you can define generic functions and classes more succinctly:
+def max[T](args: Iterable[T]) -> T:
+...
+class list[T]:
+def __getitem__(self, index: int, /) -> T:
+...
+def append(self, element: T) -> None:
+...
+Additionally, type aliases can now be declared using the
+type
+statement:
+type Point = tuple[float, float]
+type Point[T] = tuple[T, T]
+This also introduces support for
+TypeVarTuple
+,
+ParamSpec
+, and constrained type variables:
+type IntFunc[**P] = Callable[P, int]  # ParamSpec
+type LabeledTuple[*Ts] = tuple[str, *Ts]  # TypeVarTuple
+type HashableSequence[T: Hashable] = Sequence[T]  # TypeVar with bound
+type IntOrStrSequence[T: (int, str)] = Sequence[T]  # TypeVar with constraints
+The new syntax allows for lazy evaluation of type aliases, making it possible to refer to types defined later in the file. The introduction of annotation scopes ensures that type parameters are visible only within their defined scope, enhancing modularity and clarity.
+Syntactic Formalization of F-Strings
+This removes several restrictions on the usage of f-strings, allowing more flexibility in their syntax. The key improvements include:
+Quote Reuse
+: You can now reuse the same quotes inside f-strings.
+message = "Hello, World!"
+f'This is the message: "{message}"'
+Multi-line Expressions and Comments
+: F-strings can span multiple lines and include inline comments.
+f"This is the playlist: {', '.join([
+'Take me back to Eden',  # A soulful ballad
+'Alkaline',              # Energetic and vibrant
+'Ascensionism'           # A journey through sound
+])}"
+Backslashes and Unicode Characters
+: F-string expressions can contain backslashes and Unicode escape sequences.
+songs = ['Take me back to Eden', 'Alkaline', 'Ascensionism']
+print(f"This is the playlist:\n{'\n'.join(songs)}")
+print(f"This is the playlist: {'\u2665'.join(songs)}")
+These changes also lead to more precise error messages for f-strings, enhancing debugging and development efficiency.
+Per-Interpreter GIL
+It introduces a per-interpreter Global Interpreter Lock (GIL), allowing sub-interpreters to have their own GIL. This change facilitates better concurrency by enabling Python programs to fully utilize multiple CPU cores. Currently available through the C-API, it is expected to have a Python API in Python 3.13.
+PyInterpreterConfig config = {
+.check_multi_interp_extensions = 1,
+.gil = PyInterpreterConfig_OWN_GIL,
+};
+PyThreadState *tstate = NULL;
+PyStatus status = Py_NewInterpreterFromConfig(&tstate, &config);
+Low Impact Monitoring for CPython
+This defines a new API for monitoring CPython events with minimal overhead. This API covers events such as calls, returns, lines, exceptions, and jumps, enabling efficient profiling and debugging.
+Buffer Protocol Accessibility in Python
+It makes the buffer protocol accessible from Python code. Classes implementing the
+__buffer__()
+method can now be used as buffer types, and a new
+collections.abc.Buffer
+ABC provides a standard representation for buffer objects in type annotations.
+Comprehension Inlining
+It optimizes
+dictionary
+,
+list
+, and
+set
+comprehensions by inlining them, which can speed up their execution by up to two times. This change results in fewer function calls and improved performance, though it also alters some behaviors related to variable visibility and tracebacks.
+Improved Error Messages
+It introduces significant improvements to error messages, making them more informative and user-friendly. These enhancements help developers quickly identify and correct issues in their code.
+NameError Enhancements
+When a
+NameError
+is raised at the top level, the interpreter now suggests standard library modules that might need to be imported. For example, if you reference
+sys
+without importing it, the error message will guide you to import
+sys
+:
+>>> sys.version_info
+Traceback (most recent call last):
+File "<stdin>", line 1, in <module>
+NameError: name 'sys' is not defined. Did you forget to import 'sys'?
+If a
+NameError
+is raised within a method and the instance has an attribute matching the name in the exception, the suggestion now includes
+self.<NAME>
+instead of the closest match in the method scope:
+>>> class A:
+...    def __init__(self):
+...        self.blech = 1
+...    def foo(self):
+...        somethin = blech
+>>> A().foo()
+Traceback (most recent call last):
+File "<stdin>", line 1
+somethin = blech
+^^^^^
+NameError: name 'blech' is not defined. Did you mean: 'self.blech'?
+SyntaxError Enhancements
+The error message for incorrectly typed import statements, such as using
+import x from y
+instead of
+from y import x
+, has been improved to clearly indicate the correct syntax:
+>>> import a.y.z from b.y.z
+Traceback (most recent call last):
+File "<stdin>", line 1
+import a.y.z from b.y.z
+^^^^^^^^^^^^^^^^^^^^^^^
+SyntaxError: Did you mean to use 'from ... import ...' instead?
+ImportError Enhancements
+When an
+ImportError
+occurs due to a failed
+from <module> import <name>
+statement, the error message now includes suggestions based on available names in the module, helping to identify typos or capitalization errors:
+>>> from collections import chainmap
+Traceback (most recent call last):
+File "<stdin>", line 1, in <module>
+ImportError: cannot import name 'chainmap' from 'collections'. Did you mean: 'ChainMap'?
+These improvements, contributed by Pablo Galindo, aim to streamline the debugging process by providing clearer, more actionable error messages, ultimately enhancing the overall developer experience in Python 3.12.
+Improvement in Modules
+Let us explore what are the improvements that are made in modules of Python 3.12.
+array
+The
+array.array
+class now supports subscripting, making it a generic type. This allows for more natural and Pythonic array handling.
+from array import array
+# Create an array of integers
+a: array[int] = array('i', [1, 2, 3])
+print(a)
+# Access elements using subscripting
+print(a[0], a[1], a[2])
+Output
+array('i', [1, 2, 3])
+1 2 3
+asyncio
+Asyncio in Python 3.12 introduces several performance improvements and new features. Notably, eager task execution, which can significantly speed up certain use-cases, and better socket writing performance, are included.
+Eager Task Execution
+import asyncio
+async def main():
+print("Hello")
+await asyncio.sleep(1)
+print("World")
+# Create a new event loop and set eager task execution policy
+loop = asyncio.new_event_loop()
+asyncio.set_event_loop(loop)
+eager_factory = asyncio.create_eager_task_factory()
+asyncio.set_event_loop_policy(asyncio.EagerEventLoopPolicy(factory=eager_factory))
+# Run the main coroutine
+loop.run_until_complete(main())
+Output
+Hello
+World
+Current Task Speedup
+import asyncio
+async def main():
+task = asyncio.current_task()
+print(f"Current Task: {task}")
+asyncio.run(main())
+Output
+Current Task: <Task pending name='Task-1' coro=<main() running at ...>
+calendar
+Python’s
+calendar
+module in Python 3.12 has been enhanced with additional enums,
+calendar.Month
+and
+calendar.Day
+, which define the months of the year and days of the week respectively.
+import calendar
+print(calendar.Month.JANUARY)
+print(calendar.Day.MONDAY)
+Output
+Month.JANUARY
+Day.MONDAY
+csv
+The
+csv
+module now provides more control over how to handle
+None
+and empty strings with the introduction of
+csv.QUOTE_NOTNULL
+and
+csv.QUOTE_STRINGS
+flags.
+import csv
+from io import StringIO
+output = StringIO()
+writer = csv.writer(output, quoting=csv.QUOTE_NOTNULL)
+writer.writerow([None, ""])
+print(output.getvalue())
+Output
+,""
+dis
+The
+dis
+module in Python 3.12 now exposes pseudo instruction opcodes used by the compiler but not appearing in executable bytecode. It also provides new collections like
+dis.hasarg
+and
+dis.hasexc
+to signify instructions that have arguments and set an exception handler, respectively.
+import dis
+print(dis.hasarg)
+print(dis.hasexc)
+Output
+frozenset({...})  # Set of opcodes that have arguments
+frozenset({...})  # Set of opcodes that set an exception handler
+fractions
+Python’s
+fractions.Fraction
+now supports float-style formatting, making it more compatible with float-based operations.
+from fractions import Fraction
+f = Fraction(3, 4)
+print(f"{f:.2f}")
+Output
+0.75
+importlib.resources
+The
+importlib.resources
+module in Python 3.12 now supports resource directories with the
+as_file()
+function, providing easier access to resources within the package.
+import importlib.resources as resources
+import pathlib
+with resources.as_file(resources.files('my_package').joinpath('data')) as data_dir:
+print(data_dir)
+Output
+/path/to/my_package/data
+inspect
+The
+inspect
+module has been enhanced with new functions like
+inspect.markcoroutinefunction()
+and
+inspect.getasyncgenstate()
+for marking sync functions that return a coroutine and determining the state of asynchronous generators, respectively.
+import inspect
+def my_sync_func():
+async def coroutine():
+return 42
+return coroutine
+inspect.markcoroutinefunction(my_sync_func)
+print(inspect.iscoroutinefunction(my_sync_func))  # Output: True
+Output
+True
+math
+Python’s
+math
+module in Python 3.12 has been expanded with additions like
+math.sumprod()
+for computing a sum of products and
+math.nextafter()
+for moving up or down multiple steps at a time.
+import math
+result = math.sumprod([1, 2, 3], [4, 5, 6])
+print(result)  # Output: 32
+result = math.nextafter(1.0, 2.0, steps=3)
+print(result)  # Output: 1.0000000000000004
+Output
+32
+1.0000000000000004
+pathlib
+Python’s
+pathlib
+module in Python 3.12 now supports directory walking, relative paths with
+walk_up
+, and case-sensitive matching with enhancements to
+glob()
+,
+rglob()
+, and
+match()
+.
+from pathlib import Path
+for path in Path('.').walk():
+print(path)
+p = Path('example.TXT')
+print(p.match('*.txt', case_sensitive=True))  # Output: False
+Output
+.\
+.\example.TXT
+False
+random
+Python’s
+random
+module in Python 3.12 has been enhanced with the following improvements:
+random.binomialvariate()
+: Adds support for generating binomially distributed random variables.
+random.expovariate()
+: Default lambda value has been changed to 1.0 for exponential distribution.
+import random
+n, p = 10, 0.5
+result = random.binomialvariate(n, p)
+print(f"Binomially distributed random variable: {result}")  # Output: 5
+result = random.expovariate()
+print(f"Exponentially distributed random variable: {result}")
+Output
+Binomially distributed random variable: 5
+Exponentially distributed random variable: 0.47896452854367524
+shutil
+Python’s
+shutil
+module in Python 3.12 has been improved with the following features:
+shutil.make_archive()
+: Passes the
+root_dir
+argument to custom archivers and no longer changes the current working directory temporarily.
+shutil.rmtree()
+: Now accepts a new
+onexc
+argument for error handling with exceptions, replacing the deprecated
+onerror
+argument.
+shutil.which()
+: Consults the
+PATHEXT
+environment variable on Windows to find matches within
+PATH
+, even when the given command includes a directory component.
+import shutil
+def on_exception_func(exception):
+print(f"Exception occurred: {exception}")
+shutil.rmtree('/non_existing_dir', onexc=on_exception_func)
+sqlite3
+Python’s
+sqlite3
+module in Python 3.12 has been enhanced with the following features:
+Command-line interface (CLI): Provides an interactive shell for SQLite database management.
+sqlite3.Connection.autocommit
+: New attribute and parameter in
+sqlite3.connect()
+for controlling PEP 249-compliant transaction handling.
+sqlite3.Connection.load_extension()
+: New
+entrypoint
+parameter for overriding the SQLite extension entry point.
+sqlite3.Connection.getconfig()
+and
+sqlite3.Connection.setconfig()
+: New methods for making configuration changes to a database connection.
+import sqlite3
+# Create a new SQLite database in memory
+conn = sqlite3.connect(':memory:')
+cursor = conn.cursor()
+# Set autocommit mode to True
+conn.autocommit = True
+# Create a table
+cursor.execute('''CREATE TABLE stocks (date text, trans text, symbol text, qty real, price real)''')
+# Insert a row of data
+cursor.execute("INSERT INTO stocks VALUES ('2006-01-05','BUY','RHAT',100,35.14)")
+# Print inserted rows
+cursor.execute("SELECT * FROM stocks")
+print(cursor.fetchall())
+# Close the connection
+conn.close()
+Output
+[('2006-01-05', 'BUY', 'RHAT', 100.0, 35.14)]
+Conclusion
+In this article we learned about how Python 3.12 is a game changer. Key highlights include the introduction of a per-interpreter Global Interpreter Lock (GIL), a refined type parameter syntax, improved error messages, and enhancements across various modules like asyncio, pathlib, and sqlite3. These updates make Python 3.12 a compelling choice for developers looking to leverage new features while maintaining compatibility and stability. As Python continues to evolve, these enhancements ensure it remains a powerful and versatile language for a wide range of applications.
+Note:
+Following Python 3.12, the language has seen bugfix releases, with the much-anticipated Python 3.13 release planned for October 1, 2024.
+You can also enroll in
+our free Python course
+today!
+My name is Ayushi Trivedi. I am a B. Tech graduate. I have 3 years of experience working as an educator and content editor. I have worked with various python libraries, like numpy, pandas, seaborn, matplotlib, scikit, imblearn, linear regression and many more. I am also an author. My first book named #turning25 has been published and is available on amazon and flipkart. Here, I am technical content editor at Analytics Vidhya. I feel proud and happy to be AVian. I have a great team to work with.  I love building the bridge between the technology and the learner.

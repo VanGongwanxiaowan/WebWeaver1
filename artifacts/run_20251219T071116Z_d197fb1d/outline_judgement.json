@@ -1,0 +1,30 @@
+{
+  "question": "test minimal query",
+  "answer": "# Report\n\n## References\n<citation></citation>\n",
+  "results": {
+    "Instruction following": {
+      "rating": 0,
+      "justification": "The answer completely fails to follow the user's instructions for an outline. The user provided a specific question ('test minimal query') and requested a structured report evaluating the quality of an answer to this question, focusing on instruction following. The provided answer is a single, irrelevant line '# Report' followed by a placeholder for citations. It does not address the question, does not contain any analysis, interpretation, or argumentation, does not follow any requested format (like H1/H2/H3 or bullet points), and does not include any of the required sections (e.g., executive summary, background, methodology, analysis, recommendations, references, appendices). It is missing the topic, scope, audience, purpose, and all required structural elements. The content is non-existent and irrelevant to the prompt's requirements. This severe deviation from all instructions results in a score of 0."
+    },
+    "Depth": {
+      "rating": 0,
+      "justification": "The provided answer is completely empty and devoid of any content. It fails to address the question, provide any analysis, structure, or depth whatsoever. There are no subpoints, arguments, mechanisms, assumptions, methods, metrics, success criteria, sequencing, logic, dependencies, open questions, or references. It does not contain any meaningful substructure, rationale, or analytical scaffolding. It is entirely non-responsive and fails the most basic requirements for an answer, let alone a high-depth outline. This constitutes a complete absence of effort and quality, warranting the minimum score."
+    },
+    "Balance": {
+      "rating": 0,
+      "justification": "The provided answer is an empty report with a placeholder reference tag and no content related to the question 'test minimal query'. It fails to address the question, provide any analysis, or structure an outline. There is no substance, perspective, counterargument, or neutral language. The absence of any content or attempt at balance results in a complete failure to meet the criterion of balance in an outline. It is not fair, objective, or structured in any meaningful way."
+    },
+    "Breadth": {
+      "rating": 0,
+      "justification": "The provided answer is completely empty and provides no content to evaluate. It fails to address any subtopics, perspectives, or contexts relevant to the question. The absence of any information or structure means it cannot meet the minimum requirements for breadth, leading to a score of 0."
+    },
+    "Support": {
+      "rating": 0,
+      "justification": "The provided answer is completely empty, consisting only of a title and a placeholder for a citation tag. There is no content, no analysis, no claims, no sources, and no attempt to address the question or meet any of the requirements for support, evidentiary scaffolding, or sourcing. It fails entirely to provide any information or structure that could be evaluated under the criterion of Support."
+    },
+    "Insightfulness": {
+      "rating": 0,
+      "justification": "The provided answer is completely empty and devoid of any content related to the question or the criterion of insightfulness. It fails to provide any structure, analysis, interpretation, argumentation, recommendations, actionable steps, real-world examples, comparator cases, or proposed exhibits. The absence of any substantive information means it cannot demonstrate any level of insightfulness or practical usefulness. This constitutes a failure to meet the minimum requirements for a non-zero score."
+    }
+  }
+}

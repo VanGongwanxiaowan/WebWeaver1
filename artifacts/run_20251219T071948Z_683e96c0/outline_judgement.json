@@ -1,0 +1,30 @@
+{
+  "question": "What are the key features of Python 3.12?",
+  "answer": "# Report\n\n## References\n<citation></citation>\n",
+  "results": {
+    "Instruction following": {
+      "rating": 0,
+      "justification": "The answer is completely irrelevant to the user's instructions. The user explicitly requested an outline, but the provided answer is simply a 'References' section with an empty citation tag. This fails to address the question about Python 3.12 features, does not follow any requested structure (H1/H2/H3, bullet points, sections), and does not contain any content related to the topic or scope. It misses the required sections, deviates entirely from the requested format, and has zero level of detail. The tone is neutral but the content is non-existent and unrelated. This is the worst possible failure to follow instructions."
+    },
+    "Depth": {
+      "rating": 0,
+      "justification": "The provided answer is completely empty and provides no information about the key features of Python 3.12. It fails entirely to meet the criterion of Depth, which requires comprehensiveness, analytical depth, specific subpoints, key arguments, mechanisms/causal drivers, assumptions, methods, metrics, success criteria, sequencing, logic, dependencies, open questions, and integration points for evidence, examples, and visuals. The absence of any content means it cannot demonstrate any level of analysis or structure, resulting in a score of 0."
+    },
+    "Balance": {
+      "rating": 0,
+      "justification": "The provided answer is an empty report structure with a placeholder reference tag and no content. It fails entirely to address the question about Python 3.12 features. There is no information, analysis, perspectives, counterarguments, or neutral language presented. The outline structure is absent because the content is absent. This constitutes a complete failure to meet the criterion of balance, fairness, or objectivity in any meaningful way. It is not an answer, nor does it attempt to be structured or balanced."
+    },
+    "Breadth": {
+      "rating": 0,
+      "justification": "The provided answer is completely empty and provides no information about the key features of Python 3.12. It fails entirely to cover any distinct and relevant subtopics, perspectives, or contexts as required by the prompt. The absence of any content means it cannot be evaluated for breadth or any other criterion. This constitutes a failure to meet the minimum requirements for a meaningful answer."
+    },
+    "Support": {
+      "rating": 0,
+      "justification": "The provided answer is completely empty and contains only a placeholder tag '<citation></citation>'. There are no actual references, sources, or any form of evidentiary scaffolding or sourcing plan provided. The answer fails entirely to meet the minimum requirement of including source URLs or any verifiable attribution for factual assertions or planned claims. It does not contain any analysis, interpretation, or argumentation, nor does it outline any plan for sourcing information. The content is non-existent, making it impossible to evaluate any aspects of support. This results in a score of 0."
+    },
+    "Insightfulness": {
+      "rating": 0,
+      "justification": "The provided answer is completely empty and does not contain any content related to the question about the key features of Python 3.12. It fails to meet any of the criteria for insightfulness, as there is no analysis, structure, practical utility, or any form of substantive information. The absence of content makes it impossible to assess any aspects of the expected structured report, leading to a score of 0."
+    }
+  }
+}

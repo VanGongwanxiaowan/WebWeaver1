@@ -1,0 +1,594 @@
+Watch Now
+This tutorial has a related video course created by the Real Python team. Watch it together with the written tutorial to deepen your understanding:
+What's New in Python 3.12
+Python 3.12
+was published on
+October 2, 2023
+. As usual, the new version comes out in October after lots of effort by volunteers worldwide.
+The new version comes with several new features and improvements that you’ll explore in this tutorial. You can also dive into the
+documentation
+to see a complete list of all changes.
+In this tutorial, you’ll learn about new features and improvements, like:
+Better
+error messages
+with helpful suggestions and guidance
+More expressive
+f-strings
+that are backed by Python’s PEG parser
+Optimizations, including
+inlined comprehensions
+, for a faster Python
+A new syntax for
+type variables
+that you use to annotate generics
+Support for the powerful
+perf
+profiler
+on Linux
+If you want to try any of the examples in this tutorial, then you’ll need to use Python 3.12. The tutorials
+Python 3 Installation & Setup Guide
+and
+How Can You Install a Pre-Release Version of Python?
+walk you through several options for adding a new version of Python to your system.
+In addition to learning more about the new features coming to the language, you’ll also get some
+advice
+about what to consider before upgrading to the new version. Click the link below to download code examples demonstrating the new capabilities of Python 3.12:
+Improved Error Messages
+Python is usually recognized as a good beginner language, and it’s lauded for its readable syntax. One area where it’s become even more user-friendly lately is
+error messages
+.
+In
+Python 3.10
+, many error messages—especially for syntax errors—got
+more informative and precise
+. Similarly,
+Python 3.11
+added
+more information in tracebacks
+, making it more convenient to pinpoint offending code.
+The latest version of Python continues the work of improving your developer experience by providing better error messages. In particular, several common error messages now come with helpful suggestions. In the rest of this section, you’ll explore the new and improved messages.
+Several of the improvements relate to importing modules. In the next three examples, you try to work with π by importing
+pi
+from
+math
+. In each example, you’ll see one of the new suggestions in Python 3.12. Here’s the first one:
+When you use
+math
+without importing it first, you’ll get a traditional
+NameError
+. Additionally, the parser helpfully reminds you that you need to import
+math
+before accessing it.
+The reminder about remembering to import modules only triggers for standard library modules. For these error messages, Python 3.12 doesn’t track third-party packages that you’ve installed.
+It’s possible to import specific names from a module using a
+from
+-
+import
+statement. If you happen to switch the order of the keywords, you’ll now get a friendly nudge towards the correct syntax:
+Here, you tried to import
+pi
+from
+math
+, but Python needs you to reorder the statement and put
+from
+before
+import
+.
+To see a third new error message, check out what happens if you import
+py
+and not
+pi
+from
+math
+:
+There’s no
+py
+name in
+math
+, so you get an
+ImportError
+. The parser suggests that you probably meant
+pi
+instead of
+py
+. Python 3.10 introduced a similar
+suggestion feature
+, where Python looks for similar names. What’s new in Python 3.12 is the ability to do this while importing.
+In addition to these three improvements related to imports, there’s a final improvement concerning methods defined inside classes. Have a look at the following implementation of a
+Circle
+class:
+Note that you wrongly refer to
+radius
+instead of
+self.radius
+inside
+.area()
+. This will cause an error when you call the method:
+Instead of raising a plain
+NameError
+, Python recognizes that
+.radius
+is an attribute available on
+self
+. It then suggests that you use the instance attribute
+self.radius
+instead of the local name
+radius
+.
+The suggestions that you’ve seen in these examples are all new in Python 3.12. Together, they make Python a little more user-friendly. You can learn more about these error message improvements and how they’ve been implemented in
+Python 3.12 Preview: Ever Better Error Messages
+.
+More Powerful F-Strings
+Formatted strings, or
+f-strings
+for short, were introduced in
+PEP 498
+and
+Python 3.6
+. With f-strings, Python added
+string interpolation
+to the language. You can recognize f-strings by the leading
+f
+in examples like the following:
+This f-string contains three pairs of curly braces (
+{}
+). Each pair contains an
+expression
+that’s interpolated into the final string. The first expression only refers to
+major
+directly, while the second one applies a small operation on
+minor
+.
+The third expression shows that you can add certain format specifiers to control the interpolation of an expression. In this case
+release
+is a
+date
+, so
+%B
+and
+%-d
+are interpreted as
+date format specifiers
+, formatting the date as
+month day
+.
+F-strings were originally implemented with a dedicated parser. That means that even though expressions inside f-strings are regular Python expressions, the expressions weren’t parsed with the regular Python parser. Instead, the developers implemented a separate parser, which they needed to maintain.
+The primary reason for this was the inabilty of Python’s old
+LL(1) parser
+to support f-strings. After the introduction of the
+PEG parser
+in
+Python 3.9
+, this is no longer true. The current parser could parse expressions within f-strings.
+Based on
+PEP 701
+, f-strings are now
+formalized
+as additions to
+Python’s grammar
+in Python 3.12. In practice, this means that the PEG parser will parse f-strings, just like regular Python code.
+For the most part, you won’t notice this change to f-strings. It mainly benefits the core developers maintaining Python’s source code. However, there are a few changes visible to anyone using f-strings.
+In general, the new implementation of f-strings lifts some restrictions that were added originally. Many of these restrictions were
+put in place
+to make f-strings easier to handle for external tools like
+IDEs
+and code highlighters. Below, you’ll explore some examples that weren’t possible before.
+You may now reuse the string quote character inside of the f-string. For example, if you’ve delimited your f-string with double-quotes (
+"
+), you can still use
+"
+inside expressions:
+Even though double-quotes delimit the f-string, you can still use
+"
+to specify the keys inside the f-string.
+Until now, you haven’t been able to use a backslash character (
+\
+) inside an f-string expression. Going forward, you can use backslashes in f-string expressions as in any other expression:
+Here, you use
+\n
+, which represents a newline character, in both the string and expression parts of the f-string. Previously, the latter wasn’t allowed.
+As with other types of braces and parentheses, you can now add newlines inside the curly braces delimiting expressions in f-strings. As an added bonus, you can also add comments to expressions. Since a comment extends to the end of the line, you need to close the expression on the next line or later.
+To see how this works, continue the example from above:
+The highlighted line shows a commented f-string expression on a line by itself.
+While the important changes to f-strings have happened mostly under the hood, you’ve seen that some dusty corners have been improved, and f-string expressions are now more consistent with the rest of Python.
+If you want to dive deeper into the changes in f-strings, have a look at
+Python 3.12 Preview: More Intuitive and Consistent F-Strings
+.
+Faster Python: More Specializations and Inlined Comprehensions
+When Python 3.11 came out in 2022, there was a lot of buzz about optimizations to the interpreter that made Python faster. That work was part of an ongoing effort named
+faster-cpython
+, and it’s continued into Python 3.12.
+Before a Python script starts running, the code is translated into bytecode. The bytecode is the code that the Python interpreter runs. Python 3.11 uses a
+specialized adaptive interpreter
+that can change and adapt the bytecode during execution in order to optimize operations that happen often. This depends on two steps:
+Quickening
+is the process of noticing that certain bytecode is executed several times, making it a candidate for specialization.
+Specialization
+means that the interpreter replaces a general bytecode with a specialized one. For example, an operation that adds two
+floating-point numbers
+can replace a general addition operation.
+In Python 3.12, quickening happens faster than in Python 3.11, and the interpreter can now specialize many new bytecodes. To see the quickening and specialization in action, define the following function:
+You can use
+feet_to_meters()
+to convert from feet to meters. To look behind the curtain of the interpreter, you’ll use
+dis
+, which lets you disassemble your Python code and look at the bytecode instead:
+Each line shows information about one bytecode instruction. The five columns are the
+line number
+, the
+byte address
+, the
+operation code name
+, the
+operation parameters
+, and an
+interpretation of the parameters
+in parentheses.
+You don’t need to understand the details of this bytecode listing. Still, note that one line of Python code often compiles to several bytecode instructions. In this example,
+return 0.3048 * feet
+translates to four bytecode instructions.
+Actually, there’s no separate quickening step any longer. In principle, all bytecode instructions are immediately ready for specialization. In Python 3.11, the specialization kicked in after a bytecode had executed with the same types eight times. Now, this happens already after two calls:
+You call
+feet_to_meters()
+twice, each time with a
+float
+argument. The interpreter will then specialize and assume that the multiplication will continue to be between floating point numbers:
+The interpreter has adapted the original
+BINARY_OP
+instruction, replacing it with
+BINARY_OP_MULTIPLY_FLOAT
+, which is faster when both operands are
+float
+.
+Even though the interpreter is adapting certain bytecodes, this doesn’t harm Python’s dynamic nature. You can still use
+feet_to_meters()
+with integer arguments. The only bonus to using the same data types is that your program may run faster.
+To learn more, check out core developer
+Brandt Bucher’s
+presentation at PyCon 2023:
+Inside Python’s new specializing, adaptive interpreter
+.
+PEP 709
+describes a new optimization in Python 3.12: inlined comprehensions. Python supports
+list comprehensions
+,
+dictionary comprehensions
+, and set comprehensions that you use to transform iterables. For example:
+Here, you use a list comprehension to reverse each of the names. Such a comprehension is currently compiled as a nested function. To explore this, first wrap the comprehension in a function:
+Similarly to the example above, you reverse each name and make sure that it starts with a capital letter. Now, use
+dis
+to disassemble the function on Python 3.11:
+There are many details in this listing that you can ignore. The important thing to notice is that a new
+listcomp
+code object has been created. In the top part of the bytecode listing, you can see that this internal function has to be loaded and then called.
+Compiling a comprehension into a nested function like this is convenient, as the function call isolates the comprehension such that it doesn’t leak variables. However, it’s not necessarily the most efficient implementation. Especially if the comprehension runs over a small iterable, then the overhead of calling the nested function is noticeable.
+In Python 3.12, comprehensions are inlined into the bytecode. Have a look at the disassembly of
+reverse_names()
+in the new version:
+Again, the details of the bytecode aren’t important. Instead, note that there’s no extra code object, and no extra function call happens.
+In general, the inlined comprehensions are faster than the previous implementation. Comprehensions running over small iterables can be as much as twice as fast as before. If the comprehension runs over a larger iterable with thousands of elements, then you may notice that the new implementation is on par with or even slightly slower than in Python 3.11. However,
+real-world benchmarks
+suggest that you may expect a speedup in your code.
+You can find code that benchmarks different comprehensions in the accompanying materials that you can download for this tutorial. Use this to check the performance of comprehensions on your computer:
+The effort to make Python faster continues, and there are already many ideas
+slated for Python 3.13
+.
+Dedicated Type Variable Syntax
+Python added
+support for annotations
+in version 3.0. While type hinting was one of the motivations for annotations, Python’s
+support for static typing
+wasn’t in place until Python 3.5, several years later.
+Type variables
+constitute an important and powerful part of Python’s typing system. A
+type variable
+can stand in for a concrete type during static type checking. You use type variables to parametrize
+generic classes
+and
+generic functions
+. Consider the following example, which returns the first element in a given list:
+The type of the return value of
+first()
+depends on the kind of list that you pass in. For example, if
+elements
+is a list of integers, then
+first()
+returns
+int
+, while if it’s a list of strings, then the return type is
+str
+. You’ll use type variables to express this relationship.
+Python 3.12 introduces a new syntax for type variables. With the new syntax, you can write the following:
+By adding
+T
+inside square brackets to the function definition, you declare that
+first()
+is a generic function parametrized by the type variable
+T
+.
+Note:
+It often makes sense to annotate parameters with
+Sequence
+instead of
+list
+. A
+sequence
+is an iterable that supports element access with integer indices. If you want to use
+Sequence
+, then you can rewrite
+first()
+:
+Lists, tuples, and strings are all examples of sequences in Python.
+Declaring
+first()
+as a generic function has no effect at runtime. Instead, it helps your editor or static type checker in tracking the types that you use. Look at the following two examples:
+In the first invocation of
+first()
+, you pass in a list of integers. In this case, a type checker will see that
+T
+can be
+int
+and will deduce that
+first()
+returns an
+int
+. In the second example, you pass in a list of string names. In this case,
+elements
+is
+list[str]
+, so
+T
+will be treated as
+str
+.
+As noted, type variables have been available for a long time. What Python 3.12 brings to the table is the new and powerful syntax for using them. Previously, you’d implement the same example by importing
+TypeVar
+from
+typing
+:
+There are two main advantages to the new syntax. First of all, it’s part of Python’s regular grammar, so you don’t need to import the
+TypeVar
+class. Additionally,
+T
+is declared in the function definition, instead of outside the function. This makes the role of the type variable more clear.
+You’ve seen the most straightforward use of type variables. The new syntax supports other uses as well. These include multiple type variables, constrained type variables, and bounded type variables, in addition to generic classes and generic type aliases. You’ll explore these use cases in the following examples.
+Note:
+When you’re using
+TypeVar
+, you need to specify whether a type variable is
+covariant, contravariant, or invariant
+. This relates to how subtypes interact inside composite types. For example,
+bool
+is a subtype of
+int
+. What does that mean for
+list[bool]
+compared to
+list[int]
+?
+These are technical questions. The good news is that with the new syntax, you don’t need to be explicit about variance. Instead, the type checkers will be able to deduce the correct categorization when needed.
+You often use tuples to represent a heterogeneous sequence with a predetermined number of elements. A basic example would be a tuple representing information about a person as a name-age pair. In terms of types, you could describe these tuples as
+tuple[str, int]
+.
+Now, say that you have a function that flips the order of such tuple pairs. In general, the types of the two elements will be different, so you’d need two type variables to represent them. You can declare two or more type variables inside the square brackets, separated by commas:
+Here,
+T0
+and
+T1
+are two independent type variables. They can take on different types, but they may also be the same. For example, maybe you pass in a pair of Booleans.
+By default, type variables can be materialized by any type. However, sometimes you want to express type relationships that are
+constrained
+to one of just a few types or
+bounded
+as a subtype of some type. You can do so by adding a condition after the type variable, separated by a colon. You’ll use the following syntax:
+In the examples so far, you’ve used the free syntax. This implies that
+T
+can be any type. In
+constrained()
+,
+T
+is a type variable that can only be
+int
+,
+float
+, or
+complex
+. You express this by using a literal tuple of types. In
+bounded()
+,
+T
+can be
+str
+or any subclass of
+str
+.
+You can also define generic classes. As for generic functions, you declare any type variables in square brackets. The following example implements a simple
+stack
+based on
+list
+:
+Here you’ve added
+[T]
+to the class name. Then, you can use the type variable when you’re annotating the method parameters and return types inside the class. In practice, you can instantiate stacks containing specific types. Next, you’ll create a stack of integers:
+By adding
+[int]
+when you instantiate
+Stack
+, you’re telling the type checker that your data structure will be composed of integers. It can then warn you if other types may end up inside your stack.
+Observe that when you pop a number off your stack, you get the last number that was pushed. This is often referred to as
+last-in, first-out (LIFO)
+. The idea is reminiscent of a stack of plates that you may have in your kitchen cupboard. Stacks are useful in many different computer algorithms as well.
+You can also use a new syntax for
+type aliases
+. A
+type alias
+is a name that you give to a specific type, either to simplify working with a nested data type, or to more explicitly describe your data type.
+You can now use
+type
+to declare type aliases:
+Here
+Person
+is a type represented by a tuple consisting of a string and an integer.
+ListOrSet
+is a generic type alias, which a list or a set will represent. You can later annotate an argument with something like
+ListOrSet[int]
+which would require the argument to be either a list of integers or a set of integers.
+You can learn more about the new syntax for type variables and see more practical examples in
+Python 3.12 Preview: Static Typing Improvements
+and
+PEP 695
+.
+Support for the Linux
+perf
+Profiler
+A
+profiler
+is a tool for monitoring and diagnosing the performance of your scripts and programs. By
+profiling
+your code, you’ll get accurate measurements that you can use to tune your implementation.
+Python has long supported profiling with tools like
+timeit
+and
+cProfile
+in the standard library. Additionally, third-party tools like
+line-profiler
+,
+Pyinstrument
+, and
+Fil
+provide other capabilities.
+The
+perf
+profiler
+is a profiler built into the Linux kernel. While it’s only available on Linux, it’s a popular and powerful tool that can provide information about everything from hardware events and system calls to running library code.
+Until now, running
+perf
+hasn’t worked well with Python. The CPython interpreter is the program that usually runs your Python code. Python code is evaluated with a C function named
+_PyEval_EvalFrameDefault()
+, and a typical profile of a Python program will only show that it spent most of the time in
+_PyEval_EvalFrameDefault()
+.
+Python 3.12 adds proper support for
+perf
+and gives it the ability to monitor Python functions through a technique called
+trampoline instrumentation
+. This allows individual Python functions to show up in profiling reports that
+perf
+produces:
+If you’re running Linux and are interested in profiling your code, then you should give
+perf
+a try. For more information, including how to set up
+perf
+on your system and profile your code, check out
+Python 3.12 Preview: Support for the Linux Perf Profiler
+.
+Other Pretty Cool Features
+Until now, you’ve seen the biggest changes and improvements in Python 3.12. However, there’s much more to explore. In this section, you’ll take a look at some of the new features that may be sneaking under the headlines. They include more internal changes to the interpreter, a new typing feature, and new functions for grouping iterables and listing files.
+One GIL Per Subinterpreter
+Python has a
+global interpreter lock (GIL)
+that simplifies a lot of internal code in the interpreter. At the same time, the GIL imposes some restrictions on running concurrent Python code. In particular, only one thread is usually allowed to run at a time, which makes
+parallel processing
+cumbersome.
+Over time, there’ve been
+several initiatives
+to remove the GIL from the language. Recently,
+PEP 703
+and the
+nogil project
+have caused a lot of buzz, and there’s a
+roadmap
+for removing the GIL from Python.
+A related initiative is seeing the light in Python 3.12.
+PEP 684
+describes a
+per-interpreter GIL
+. The Python interpreter is the program that executes your Python scripts and programs. It’s possible to spawn new interpreters, so-called
+subinterpreters
+, but you can only do so in extension modules through the C API.
+Note:
+There’s ongoing work on a new standard library module named
+interpreters
+that will expose subinterpreters to Python code. This is described in
+PEP 554
+and in Real Python’s guide to
+subinterpreters
+.
+Having a per-interpreter GIL means that there’s a separate interpreter lock for each subinterpreter. This opens up the possibility of new and efficient ways of doing parallelism in Python that take better advantage of the multiple cores found in modern computers. One such interesting model is
+communicating sequential processes (CSP)
+which has inspired concurrency in
+several languages
+, including
+Erlang
+and
+Go
+.
+To achieve a per-interpreter GIL, the core developers have refactored several parts of the CPython internals. Python has both
+global state storage
+and
+per-interpreter storage
+. In this initiative, much of what was previously stored as global state is now stored for each interpreter.
+Probably, you won’t notice this change when running Python 3.12. None of the changes are exposed to regular users of Python. Instead, they’re laying the groundwork for new ways to implement parallelism in the future.
+You can learn more about subinterpreters, including the plans for making them more accessible in Python 3.13, in
+Python 3.12 Preview: Subinterpreters
+.
+Immortal Objects
+The introduction of
+immortal objects
+into Python is another internal feature that improves the CPython interpreter and prepares the way for new developments in the future.
+For efficiency, several objects in Python are singletons. For example, there’s only one
+None
+object during program execution, independent of how many times you refer to
+None
+in your code. This optimization is possible because
+None
+is
+immutable
+. It’ll never change its value.
+It turns out that while
+None
+is immutable as seen from Python’s perspective, the
+None
+object handled by the CPython interpreter does change. The interpreter represents every object in a struct that includes the object’s
+reference count
+in addition to the object’s data. The reference count changes every time your code references an object.
+You can check an object’s reference count for yourself:
+You use
+sys.getrefcount()
+to inspect the reference count of an object. Here
+a
+refers to the
+float
+object
+3.12
+. You can see that the reference count increases when
+b
+refers to the same object. Likewise, the reference count decreases when the name
+b
+is
+deleted
+.
+Note:
+The first call to
+sys.getrefcount()
+returns
+2
+, while you’ve only created one reference to
+a
+. However, passing
+a
+as an argument to
+getrefcount()
+creates the second reference. In general, the count returned will often be one higher than what you expect.
+The reference count is important for Python’s
+memory management
+. CPython uses a garbage collector that removes objects from memory once their reference count hits zero.
+Immortal objects are objects which are truly immutable, including inside the interpreter. This means that their reference count doesn’t change. Immortal objects are identified by having their reference count set to a special flag. This is done to keep backwards compatibility of the C-API and to mostly treat immortal objects the same as regular objects.
+You can see this mechanism if you look at the reference count of an immortal object:
+At first, you get the impression that
+None
+is referenced more than four billion times. However, 4,294,967,295 is a special value indicating that
+None
+is an immortal object. Note that t
+
+[TRUNCATED]
